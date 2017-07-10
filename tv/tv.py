@@ -1,4 +1,3 @@
-import math
 import webapp2
 from datetime import datetime
 from google.appengine.ext import ndb
