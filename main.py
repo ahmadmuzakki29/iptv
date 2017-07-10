@@ -1,19 +1,22 @@
-from flask import Flask, render_template, request
-from tv import all
-from model.tv import *
+import webapp2
 
-app = Flask(__name__)
+from tv.all import All
+from tv.tv import Tv
+from model.tv import Tv as TvModel
 
-@app.route('/')
-def index():
-	return render_template("index.html")
+class MainPage(webapp2.RequestHandler):
+	def get(self):
+		self.response.headers['Content-Type'] = 'text/plain'
+		self.response.write('Hello, World!')
 
-@app.route('/all')
-def allRoute():
-	return all.getAll()
+class Create(webapp2.RequestHandler):
+	def get(self):
+		tv = TvModel(name="MetroTv",url="http://edge.metrotvnews.com:1935/live-edge/smil:metro.smil/playlist.m3u8")
+		tv.put()
 
-@app.route('/create')
-def create():
-	tipi = Tv(name="Kompas Tv", link="http://kucluks.com")
-	tipi.put()
-	return "cuks"
+app = webapp2.WSGIApplication([
+	('/', MainPage),
+	('/tv/all',All),
+	(r'/tv/(\w+)',Tv),
+	('/create',Create),
+], debug=True)

@@ -1,2 +1,2 @@
-Flask==0.12.2
-lxml
+# pip install -t lib -r requirements.txt
+requests==2.3
